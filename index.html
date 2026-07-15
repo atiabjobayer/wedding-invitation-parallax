@@ -2,50 +2,46 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bair & Shimi | We're Getting Married</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Bair &amp; Shimi | We're Getting Married</title>
 <link rel="stylesheet" href="styles.css">
-
 </head>
 <body>
 
   <section class="hero">
 
+    <!-- LAYER 0: base gradient (in CSS) -->
+    <!-- LAYER 1: bbg.png artwork background, present from load -->
+    <div class="bg-big" id="bgBig"></div>
     <div class="bg-pattern"></div>
     <div class="bg-fade"></div>
 
-    <div class="top-text">
-      <p class="eyebrow">We're Getting Married</p>
-      <h1 class="names" id="namesText">Bair <span class="amp">&amp;</span> Shimi</h1>
+    <!-- LAYER 2: flowers drifting in from the sides -->
+    <div class="flowers" id="flowers">
+      <img class="flower f1" id="f1" src="images/objects/f1.png" alt="">
+      <img class="flower f2" id="f2" src="images/objects/f2.png" alt="">
+      <img class="flower f3" id="f3" src="images/objects/f3.png" alt="">
+      <img class="flower f4" id="f4" src="images/objects/f4.png" alt="">
+      <img class="flower f5" id="f5" src="images/objects/f5.png" alt="">
+      <img class="flower f6" id="f6" src="images/objects/f6.png" alt="">
     </div>
 
-    <div class="hands-stage">
-      <img id="groomhand" class="hand groom-hand" src="images/groomhand.png">
-      <img id="bridehand" class="hand bride-hand" src="images/bridehand.png">
-      <img id="groomhandcut" class="hand groom-hand-cut" src="images/groomhandcut.png">
+    <!-- LAYER 3: all the wedding text, as artwork. ABOVE the background,
+         BELOW the hands. Fully visible on load; fades out on scroll. -->
+    <img class="all-text" id="allText"
+         src="images/texts/all_text.png"
+         alt="You are invited to the wedding of Bair Srivastav and Shimi Afsara. Saturday 08 August, 1pm. 1277 Carolyn Dr NE Atlanta 30329. Attire is dressy casual, light colors are preferred.">
+
+    <!-- LAYER 4: the hand stack -->
+    <div class="hands-stage" id="handsStage">
+      <img id="groomhand"    class="hand groom-hand"     src="images/groomhand.png" alt="">
+      <img id="bridehand"    class="hand bride-hand"     src="images/bridehand.png" alt="">
+      <img id="groomhandcut" class="hand groom-hand-cut" src="images/groomhandcut.png" alt="">
     </div>
 
-    <div class="join-block" id="joinBlock">
-      <p class="join-us" id="joinus">Join Us</p>
-      <div class="details-row">
-        <div class="detail" id="dateDetail">
-          <span class="label">Date</span>
-          <span class="value">08.08.2026</span>
-        </div>
-        <div class="detail" id="timeDetail">
-          <span class="label">Time</span>
-          <span class="value">1:00 PM</span>
-        </div>
-      </div>
-      <div id="locationDetail">
-        <p class="address-line">1277 Carolyn Dr NE</p>
-        <p class="address-sub">Atlanta, GA 30329</p>
-      </div>
+    <div class="scroll-cue" id="scrollCue">
+      <span></span>
     </div>
-
-    <!-- <div class="bottom-text">
-    </div> -->
 
   </section>
 

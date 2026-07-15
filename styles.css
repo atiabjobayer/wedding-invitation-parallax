@@ -1,259 +1,273 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap');
+/* ============================================================
+   RESPONSIVE STRATEGY
+   - Every size derives from clamp() or vmin, never fixed px.
+   - The hands stage is a fixed-aspect box; hands are placed in
+     PERCENTAGES of that box, so the composition is identical
+     at any resolution.
+   - --stage-w flips from width-driven (landscape) to
+     height-driven (portrait) so the art never crops.
+   ============================================================ */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+:root {
+  --gold: #d9a066;
+  --stage-ratio: 2000 / 1414;   /* real hand PNG dimensions */
+
+  --pad-top:    clamp(28px, 6vh, 70px);
+  --pad-bottom: clamp(24px, 5vh, 64px);
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
 body {
-    background: #0e0e0e;
-    overflow-x: hidden;
+  background: #0e0e0e;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;   /* stops iOS rubber-banding out of the lock */
 }
 
 body.locked {
-    overflow: hidden;
-    height: 100vh;
+  overflow: hidden;
+  height: 100svh;
+  position: fixed;               /* hard lock for mobile Safari */
+  width: 100%;
 }
 
-/* ---------- HERO / PARALLAX SECTION ---------- */
+/* ---------- HERO ---------- */
 
 .hero {
-    position: relative;
-    min-height: 100vh;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    background: radial-gradient(circle at 50% 30%, #4a4a4a 0%, #2b2b2b 45%, #141414 100%);
+  position: relative;
+  /* svh keeps mobile browser chrome from clipping the composition */
+  height: 100svh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* text blocks are gone; centre the hands */
+  align-items: center;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #4a4a4a 0%, #2b2b2b 45%, #141414 100%);
+}
+
+/* LAYER 1 — bbg.png (2814x1583, ratio ~1.777) */
+.bg-big {
+  position: absolute;
+  inset: 0;
+  background-image: url('images/bbg.png');
+  background-size: cover;        /* fills any aspect without letterboxing */
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 1;                    /* visible from the start */
+  will-change: transform;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .bg-pattern {
-    position: absolute;
-    inset: 0;
-    opacity: 0.06;
-    background-image:
-        radial-gradient(circle at 20% 20%, transparent 0, transparent 40px, rgba(255,255,255,0.4) 41px, transparent 42px),
-        radial-gradient(circle at 80% 60%, transparent 0, transparent 40px, rgba(255,255,255,0.4) 41px, transparent 42px);
-    background-size: 300px 300px;
-    pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  background-image:
+    radial-gradient(circle at 20% 20%, transparent 0, transparent 40px, rgba(255,255,255,0.4) 41px, transparent 42px),
+    radial-gradient(circle at 80% 60%, transparent 0, transparent 40px, rgba(255,255,255,0.4) 41px, transparent 42px);
+  background-size: clamp(180px, 26vmin, 320px) clamp(180px, 26vmin, 320px);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .bg-fade {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.55) 100%);
-    pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(0,0,0,0.40) 0%,
+    rgba(0,0,0,0) 26%,
+    rgba(0,0,0,0) 72%,
+    rgba(0,0,0,0.62) 100%);
+  pointer-events: none;
+  z-index: 3;
 }
 
-/* ---------- TOP TEXT ---------- */
+/* ---------- FLOWERS ---------- */
 
-.top-text {
-    position: relative;
-    z-index: 20;
-    text-align: center;
-    padding-top: 60px;
-    color: #fff;
-    transition: opacity 0.1s linear;
+.flowers {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
 }
 
-.eyebrow {
-    letter-spacing: 6px;
-    font-size: 0.8em;
-    font-weight: 500;
-    color: #d9a066;
-    margin-bottom: 14px;
+.flower {
+  position: absolute;
+  opacity: 0;
+  will-change: transform, opacity;
+  object-fit: contain;
+  /* every flower sized in vmin => identical proportion on all screens */
+  width: clamp(90px, 22vmin, 300px);
 }
 
-/* ---------- NAMES (moved to top) ---------- */
+/* --- BOTTOM LEFT (f2 = front, f1 = behind, both anchored to the edge) --- */
+.f2 { left: -3%;  bottom: -4%;  width: clamp(140px, 34vmin, 460px); z-index: 2; }
+.f1 { left: 14%;  bottom: -6%;  width: clamp(150px, 36vmin, 480px); z-index: 1; }
 
-.names {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 5.2em;
-    font-weight: 500;
-    letter-spacing: 2px;
-    margin-top: 10px;
+/* --- TOP LEFT --- */
+.f5 { left: -4%;  top: -3%;     width: clamp(130px, 32vmin, 430px); z-index: 2; }
+
+/* --- BOTTOM RIGHT (f6 = front, f3 = behind, both anchored to the edge) --- */
+.f6 { right: -3%; bottom: -4%;  width: clamp(130px, 32vmin, 430px); z-index: 2; }
+.f3 { right: 13%; bottom: -6%;  width: clamp(150px, 36vmin, 480px); z-index: 1; }
+
+/* --- f4: tall narrow sprig, center-left edge --- */
+.f4 {
+  left: -1%;
+  top: 50%;
+  margin-top: -14vmin;   /* half its own height => vertically centered */
+  width: clamp(30px, 7vmin, 90px);
+  z-index: 1;
 }
 
-.names .amp {
-    color: #d9a066;
-    font-style: italic;
-    margin: 0 20px;
-}
+/* ---------- ALL TEXT (artwork layer) ----------
+   Placement derived from full_scene.jpg, where the text block occupies
+   x 26.2%-71.8%, y 15.4%-91.7% of a 1.778-ratio frame:
+       centre  = 49.0% across, 53.6% down
+       height  = 76.4% of the frame height
+   Anchored by HEIGHT (its long axis) with width auto, so the 1.062
+   aspect of all_text.png is always preserved.
 
-/* ---------- JOIN US / DATE / TIME (moved bottom-right) ---------- */
+   z-index 6: above bg (1-3) and flowers (5), below hands (10). */
 
-.join-block {
-    position: absolute;
-    right: 25%;
-    bottom: 90px;
-    z-index: 20;
-    text-align: center;
-    color: #fff;
-}
-
-.join-block .details-row {
-    display: flex;
-    gap: 60px;
-    margin-bottom: 0;
-}
-
-.names .amp {
-    color: #d9a066;
-    font-style: italic;
-    margin: 0 20px;
-}
-
-.datetime {
-    margin-top: 14px;
-    font-size: 1.1em;
-    font-weight: 400;
-    letter-spacing: 1px;
-    color: #f1f1f1;
-}
-
-.fullnames {
-    margin-top: 6px;
-    font-size: 0.85em;
-    font-weight: 300;
-    color: #bdbdbd;
-    letter-spacing: 1px;
+.all-text {
+  position: absolute;
+  left: 49%;
+  top: 53.6%;
+  translate: -50% -50%;      /* separate from transform, which JS owns */
+  height: 76.4svh;
+  width: auto;
+  max-width: 92vw;           /* never let it touch the side edges */
+  object-fit: contain;
+  z-index: 6;
+  opacity: 1;                /* fully visible on load; JS fades it out */
+  will-change: opacity, transform;
+  pointer-events: none;
 }
 
 /* ---------- HANDS ---------- */
 
 .hands-stage {
-    position: relative;
-    z-index: 10;
-    width: min(90vw, 1300px);
-    aspect-ratio: 1587 / 680; /* matches source image ratio */
-    margin: 20px auto;
+  position: relative;
+  z-index: 10;
+  aspect-ratio: var(--stage-ratio);
+
+  /* SIZE OF THE HANDS.
+     The clasped pair spans ~126% of THIS box's width and ~68% of its
+     height, and is centred in it. So:
+         hands width  as % of viewport = vw-number x 1.26
+         hands height as % of viewport = svh-number x 0.68
+     Whichever term is SMALLER wins, so the hands can never be cut on
+     either axis. Raise both together to enlarge. */
+  width: min(102vw, 1500px, calc(150svh * (2000 / 1414)));
+  margin: auto;
+  flex: none;          /* never let flexbox shrink the stage */
+  max-width: none;     /* let the wrists bleed past the edges */
+  pointer-events: none;
 }
 
 .hand {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    will-change: transform, opacity;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
-/* stacking order: cut hand on very top, then bride hand, then full groom hand at bottom */
-.groom-hand {
-    z-index: 1;
-    object-position: left center;
-    transform: translateX(-60vw);
+/* THE 3-LAYER STACK (bottom -> top):
+     z1 .groom-hand     — full groom hand + sleeve
+     z2 .bride-hand     — bride hand, crosses over the groom
+     z3 .groom-hand-cut — groom's fingertips redrawn on top, so his
+                          fingers read as being in front of hers
+
+   groom-hand and groom-hand-cut are the SAME artwork on two layers.
+   Their object-position AND transform-origin must match exactly, or
+   the cutout slides off the hand it is meant to overlay. */
+/* The stage now matches the PNG ratio exactly (2000:1414), so every
+   layer fills the box identically and object-position is a no-op.
+   All three MUST share the same origin or the layers drift apart. */
+.groom-hand,
+.bride-hand,
+.groom-hand-cut { object-position: center; transform-origin: 50% 50%; }
+
+.groom-hand     { z-index: 1; }
+.bride-hand     { z-index: 2; }
+.groom-hand-cut { z-index: 3; opacity: 1; }
+
+/* ---------- SCROLL CUE ---------- */
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(8px, 1.6vh, 18px);
+  transform: translateX(-50%);
+  z-index: 25;
+  width: clamp(18px, 3vmin, 26px);
+  height: clamp(30px, 5vmin, 42px);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  border-radius: 999px;
+  transition: opacity 0.3s ease;
 }
 
-.groom-hand-cut {
-    z-index: 3;
-    object-position: left center;
-    transform: translateX(-60vw);
-    opacity: 1;
+.scroll-cue span {
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  width: 3px;
+  height: 3px;
+  margin-left: -1.5px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: cue 1.6s ease-in-out infinite;
 }
 
-.bride-hand {
-    z-index: 2;
-    object-position: right center;
-    transform: translate(60vw, -40vh);
+@keyframes cue {
+  0%   { transform: translateY(0);   opacity: 0; }
+  35%  { opacity: 1; }
+  100% { transform: translateY(160%); opacity: 0; }
 }
 
-/* ---------- BOTTOM TEXT ---------- */
+/* ---------- BREAKPOINT NUDGES ---------- */
 
-.bottom-text {
-    position: relative;
-    z-index: 20;
-    text-align: center;
-    padding-bottom: 60px;
-    color: #fff;
+/* Tall/narrow phones: hands shrink, text gets room */
+@media (max-aspect-ratio: 3/4) {
+  .hands-stage { width: min(102vw, calc(150svh * (2000 / 1414))); }
+  /* portrait: anchor the text by WIDTH instead, or it renders tiny */
+  .all-text { height: auto; width: 88vw; max-width: 88vw; top: 42%; left: 50%; }
+  /* phones: pull the corner clusters in tighter and shrink */
+  .f2 { left: -8%;  bottom: -2%; width: clamp(120px, 42vmin, 240px); }
+  .f1 { left: 8%;   bottom: -4%; width: clamp(125px, 44vmin, 250px); }
+  .f5 { left: -10%; top: -1%;    width: clamp(115px, 40vmin, 230px); }
+  .f6 { right: -8%; bottom: -2%; width: clamp(115px, 40vmin, 230px); }
+  .f3 { right: 7%;  bottom: -4%; width: clamp(125px, 44vmin, 250px); }
+  .f4 { left: -2%; top: 50%; margin-top: -16vmin; width: clamp(24px, 8vmin, 52px); }
 }
 
-.join-us {
-    letter-spacing: 6px;
-    font-size: 0.75em;
-    font-weight: 500;
-    color: #d9a066;
-    margin-bottom: 16px;
+/* Short landscape (phone rotated, small laptops) */
+@media (max-height: 560px) and (orientation: landscape) {
+  .hands-stage { width: min(102vw, calc(78svh * (2000 / 1414))); }
+  .all-text { height: 86svh; }
+  :root { --pad-top: 16px; --pad-bottom: 14px; }
+  .scroll-cue { display: none; }
 }
 
-.details-row {
-    display: flex;
-    justify-content: center;
-    gap: 120px;
-    margin-bottom: 20px;
+/* Ultra-wide displays: stop the art from ballooning */
+@media (min-aspect-ratio: 21/9) {
+  .hands-stage { width: min(62vw, 1500px, calc(92svh * (2000 / 1414))); }
 }
 
-.detail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.detail .label {
-    font-size: 0.65em;
-    letter-spacing: 3px;
-    color: #a8a8a8;
-    margin-bottom: 4px;
-}
-
-.detail .value {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6em;
-}
-
-.address-line {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.7em;
-}
-
-.address-sub {
-    margin-top: 4px;
-    font-size: 0.85em;
-    color: #bdbdbd;
-    letter-spacing: 1px;
-}
-
-/* ---------- STAGED TEXT REVEAL (JS-driven opacity/transform) ---------- */
-
-#joinus, #dateDetail, #timeDetail, #namesText, #locationDetail {
-    opacity: 0;
-}
-
-.join-block #locationDetail {
-    margin-top: 20px;  /* increase this number for more vertical gap */
-}
-
-/* ---------- SCROLL SECTION BELOW HERO ---------- */
-
-.sec {
-    position: relative;
-    background: #003329;
-    padding: 100px 12%;
-}
-
-.sec h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.6em;
-    color: #fff;
-    margin-bottom: 16px;
-}
-
-.sec p {
-    font-size: 1em;
-    color: #d8d8d8;
-    font-weight: 300;
-    line-height: 1.7;
-    max-width: 700px;
-}
-
-/* ---------- RESPONSIVE ---------- */
-
-@media (max-width: 700px) {
-    .names { font-size: 3em; }
-    .details-row { gap: 60px; }
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue span { animation: none; }
 }
