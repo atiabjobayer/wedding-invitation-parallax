@@ -86,10 +86,11 @@ const SCALE = { START: 0.82, END: 1.00 };
 // Fraction of the scroll budget the hands take to travel into place.
 const HANDS_PHASE = 0.42;
 
-// TEXT FADE — all_text.png starts fully opaque and fades out as you
-// scroll. START = scroll fraction where it begins fading (0 = at once),
-// END = where it is fully gone. Raise START to hold it longer.
-const TEXT_FADE = { START: 0.05, END: 0.55 };
+// TEXT FADE — all_text.png starts fully invisible and fades IN once
+// the hands have arrived. START = scroll fraction where it begins
+// fading in (should be >= HANDS_PHASE so it waits for the hands),
+// END = where it is fully visible.
+const TEXT_FADE = { START: 0.42, END: 0.75 };
 
 /* ============================================================
    >>> END HAND TUNING <<<
@@ -151,6 +152,10 @@ function render() {
   const bgP = ease(raw);
   bgBig.style.transform = `scale(${1.06 - 0.06 * bgP})`;
 
+  /* --- TEXT/HANDS FOCUS PROGRESS (needed by flowers below too) --- */
+  const tp = ease(stageProgress(raw, TEXT_FADE.START, TEXT_FADE.END));
+  const tInv = 1 - tp;
+
   /* --- FLOWERS: staggered drift in, each from its own edge ---
      dx/dy are % of the element's own width/height. */
   const FLOWER_MOTION = {
@@ -170,19 +175,32 @@ function render() {
     const from = 0.20 + m.i * 0.07;
     const p = ease(stageProgress(raw, from, from + 0.30));
     const inv = 1 - p;
+
+    // Extra "pop forward" pass, synced with the hands blur/dim (tp):
+    // flowers lift slightly and sharpen from a soft blur as they
+    // take over as the front layer.
+    const popLift  = tInv * -3;                 // % hover-up
+    const popScale = 1 + tp * 0.06;              // slight forward pop
+    const popBlur  = tInv * 5;                   // blurred -> sharp
+
     el.style.opacity = p;
+    el.style.filter = `blur(${popBlur}px)`;
     el.style.transform =
-      `translate3d(${m.dx * inv}%, ${m.dy * inv}%, 0) ` +
-      `rotate(${m.rot * inv}deg) scale(${0.86 + 0.14 * p})`;
+      `translate3d(${m.dx * inv}%, ${(m.dy * inv) + popLift}%, 0) ` +
+      `rotate(${m.rot * inv}deg) scale(${(0.86 + 0.14 * p) * popScale})`;
   });
 
-  /* --- ALL TEXT: fully visible on load, fades out as you scroll ---
+  /* --- ALL TEXT: hidden on load, fades in once the hands arrive ---
      Uses `translate` in CSS for centring, so writing `transform` here
-     doesn't fight it. A slight lift + shrink as it goes. */
-  const tp = ease(stageProgress(raw, TEXT_FADE.START, TEXT_FADE.END));
+     doesn't fight it. A slight settle + grow as it appears. */
   if (allText) {
-    allText.style.opacity   = 1 - tp;
-    allText.style.transform = `translate3d(0, ${-tp * 3}%, 0) scale(${1 - tp * 0.06})`;
+    allText.style.opacity   = tp;
+    allText.style.filter    = `blur(${tInv * 14}px)`;
+    allText.style.transform = `translate3d(0, ${tInv * 3}%, 0) scale(${0.94 + tp * 0.06})`;
+  }
+  if (handsStage) {
+    handsStage.style.filter  = `blur(${tp * 4}px)`;
+    handsStage.style.opacity = 1 - tp * 0.35;
   }
 
   if (scrollCue) scrollCue.style.opacity = 1 - clamp(raw * 3, 0, 1);

@@ -96,14 +96,14 @@ body.locked {
 .flowers {
   position: absolute;
   inset: 0;
-  z-index: 5;
+  z-index: 12;
   pointer-events: none;
 }
 
 .flower {
   position: absolute;
   opacity: 0;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
   object-fit: contain;
   /* every flower sized in vmin => identical proportion on all screens */
   width: clamp(90px, 22vmin, 300px);
@@ -148,9 +148,9 @@ body.locked {
   width: auto;
   max-width: 92vw;           /* never let it touch the side edges */
   object-fit: contain;
-  z-index: 6;
-  opacity: 1;                /* fully visible on load; JS fades it out */
-  will-change: opacity, transform;
+  z-index: 11;
+  opacity: 0;                /* hidden on load; JS fades it in after hands arrive */
+  will-change: opacity, transform, filter;
   pointer-events: none;
 }
 
@@ -173,6 +173,7 @@ body.locked {
   flex: none;          /* never let flexbox shrink the stage */
   max-width: none;     /* let the wrists bleed past the edges */
   pointer-events: none;
+  will-change: filter;
 }
 
 .hand {
