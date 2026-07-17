@@ -62,7 +62,7 @@ const TEXT_FADE = { START: 0.42, END: 0.75 };
 const AUTO = {
   DELAY: 600, // ms to wait after the loader fades before starting
   PHASE1_DURATION: 1800, // ms for the hands to travel in and meet
-  PAUSE: 500, // ms to hold once they meet, before the reveal starts
+  PAUSE: 250, // ms to hold once they meet, before the reveal starts
   PHASE2_DURATION: 1400, // ms for the blur/text reveal to play out
   TARGET: TEXT_FADE.END, // stop once the text is fully sharp, not before
 };
@@ -400,7 +400,6 @@ const MESSAGES = [
 // Only the first visible frame blocks the loader.
 const CRITICAL_ASSETS = [
   "images/bbg.png",
-  "images/texts/all_text.png",
   "images/groomhand.png",
   "images/bridehand.png",
   "images/groomhandcut.png",
@@ -435,8 +434,8 @@ function finish() {
 
   setProgress(1);
 
-  // Decorative flowers are loaded only after first frame is ready.
-  hydrateImages(".flower[data-src]");
+  // Non-critical layers can load after first frame is ready.
+  hydrateImages("#allText[data-src], .flower[data-src]");
 
   // let the ring visibly reach 100% before the curtain lifts
   setTimeout(() => {
@@ -482,9 +481,7 @@ function preload() {
 
 /* ---------- init ---------- */
 
-hydrateImages(
-  "#allText[data-src], #groomhand[data-src], #bridehand[data-src], #groomhandcut[data-src]",
-);
+hydrateImages("#groomhand[data-src], #bridehand[data-src], #groomhandcut[data-src]");
 lockBody();
 render();
 preload();

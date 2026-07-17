@@ -7,7 +7,6 @@
 
 <!-- Warm the big assets as early as possible -->
 <link rel="preload" as="image" href="images/bbg.webp" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="images/texts/all_text.webp" type="image/webp" fetchpriority="high">
 <link rel="preload" as="image" href="images/groomhand.webp" type="image/webp" fetchpriority="high">
 <link rel="preload" as="image" href="images/bridehand.webp" type="image/webp" fetchpriority="high">
 <link rel="preload" as="image" href="images/groomhandcut.webp" type="image/webp" fetchpriority="high">
@@ -60,8 +59,8 @@
     <img class="all-text" id="allText"
           data-src="images/texts/all_text.png"
           decoding="async"
-          fetchpriority="high"
-          loading="eager"
+          fetchpriority="low"
+          loading="lazy"
          alt="You are invited to the wedding of Bair Srivastav and Shimi Afsara. Saturday 08 August, 1pm. 1277 Carolyn Dr NE Atlanta 30329. Attire is dressy casual, light colors are preferred.">
 
     <!-- LAYER 4: the hand stack -->
