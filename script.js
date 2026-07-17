@@ -481,7 +481,9 @@ function preload() {
 
 /* ---------- init ---------- */
 
-hydrateImages("#groomhand[data-src], #bridehand[data-src], #groomhandcut[data-src]");
+hydrateImages(
+  "#groomhand[data-src], #bridehand[data-src], #groomhandcut[data-src]",
+);
 lockBody();
 render();
 preload();

@@ -1,23 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Bair &amp; Shimi | We're Getting Married</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Bair &amp; Shimi | We're Getting Married</title>
 
-<!-- Warm the big assets as early as possible -->
-<link rel="preload" as="image" href="images/bbg.webp" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="images/groomhand.webp" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="images/bridehand.webp" type="image/webp" fetchpriority="high">
-<link rel="preload" as="image" href="images/groomhandcut.webp" type="image/webp" fetchpriority="high">
+  <!-- Warm the big assets as early as possible -->
+  <link rel="preload" as="image" href="images/bbg.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="images/groomhand.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="images/bridehand.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="images/groomhandcut.webp" type="image/webp" fetchpriority="high">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Poppins:wght@300;400&display=swap">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Poppins:wght@300;400&display=swap">
 
-<link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
   <!-- LOADING SCREEN — covers everything until the artwork has decoded.
@@ -27,7 +29,7 @@
       <div class="loader-ring">
         <svg viewBox="0 0 100 100" aria-hidden="true">
           <circle class="ring-track" cx="50" cy="50" r="44"></circle>
-          <circle class="ring-fill"  cx="50" cy="50" r="44" id="ringFill"></circle>
+          <circle class="ring-fill" cx="50" cy="50" r="44" id="ringFill"></circle>
         </svg>
         <span class="loader-pct" id="loaderPct">0%</span>
       </div>
@@ -46,28 +48,34 @@
 
     <!-- LAYER 2: flowers drifting in from the sides -->
     <div class="flowers" id="flowers">
-      <img class="flower f1" id="f1" data-src="images/objects/f1.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
-      <img class="flower f2" id="f2" data-src="images/objects/f2.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
-      <img class="flower f3" id="f3" data-src="images/objects/f3.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
-      <img class="flower f4" id="f4" data-src="images/objects/f4.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
-      <img class="flower f5" id="f5" data-src="images/objects/f5.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
-      <img class="flower f6" id="f6" data-src="images/objects/f6.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
+      <img class="flower f1" id="f1" data-src="images/objects/f1.png" decoding="async" fetchpriority="low"
+        loading="lazy" alt="">
+      <img class="flower f2" id="f2" data-src="images/objects/f2.png" decoding="async" fetchpriority="low"
+        loading="lazy" alt="">
+      <img class="flower f3" id="f3" data-src="images/objects/f3.png" decoding="async" fetchpriority="low"
+        loading="lazy" alt="">
+      <img class="flower f4" id="f4" data-src="images/objects/f4.png" decoding="async" fetchpriority="low"
+        loading="lazy" alt="">
+      <img class="flower f5" id="f5" data-src="images/objects/f5.png" decoding="async" fetchpriority="low"
+        loading="lazy" alt="">
+      <img class="flower f6" id="f6" data-src="images/objects/f6.png" decoding="async" fetchpriority="low"
+        loading="lazy" alt="">
     </div>
 
     <!-- LAYER 3: all the wedding text, as artwork. ABOVE the background,
          BELOW the hands. Fully visible on load; fades out on scroll. -->
-    <img class="all-text" id="allText"
-          data-src="images/texts/all_text.png"
-          decoding="async"
-          fetchpriority="low"
-          loading="lazy"
-         alt="You are invited to the wedding of Bair Srivastav and Shimi Afsara. Saturday 08 August, 1pm. 1277 Carolyn Dr NE Atlanta 30329. Attire is dressy casual, light colors are preferred.">
+    <img class="all-text" id="allText" data-src="images/texts/all_text.png" decoding="async" fetchpriority="low"
+      loading="lazy"
+      alt="You are invited to the wedding of Bair Srivastav and Shimi Afsara. Saturday 08 August, 1pm. 1277 Carolyn Dr NE Atlanta 30329. Attire is dressy casual, light colors are preferred.">
 
     <!-- LAYER 4: the hand stack -->
     <div class="hands-stage" id="handsStage">
-      <img id="groomhand"    class="hand groom-hand"     data-src="images/groomhand.png" decoding="async" fetchpriority="high" loading="eager" alt="">
-      <img id="bridehand"    class="hand bride-hand"     data-src="images/bridehand.png" decoding="async" fetchpriority="high" loading="eager" alt="">
-      <img id="groomhandcut" class="hand groom-hand-cut" data-src="images/groomhandcut.png" decoding="async" fetchpriority="high" loading="eager" alt="">
+      <img id="groomhand" class="hand groom-hand" data-src="images/groomhand.png" decoding="async" fetchpriority="high"
+        loading="eager" alt="">
+      <img id="bridehand" class="hand bride-hand" data-src="images/bridehand.png" decoding="async" fetchpriority="high"
+        loading="eager" alt="">
+      <img id="groomhandcut" class="hand groom-hand-cut" data-src="images/groomhandcut.png" decoding="async"
+        fetchpriority="high" loading="eager" alt="">
     </div>
 
     <div class="scroll-cue" id="scrollCue">
@@ -78,4 +86,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
