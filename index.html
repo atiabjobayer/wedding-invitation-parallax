@@ -6,11 +6,11 @@
 <title>Bair &amp; Shimi | We're Getting Married</title>
 
 <!-- Warm the big assets as early as possible -->
-<link rel="preload" as="image" href="images/bbg.png">
-<link rel="preload" as="image" href="images/texts/all_text.png">
-<link rel="preload" as="image" href="images/groomhand.png">
-<link rel="preload" as="image" href="images/bridehand.png">
-<link rel="preload" as="image" href="images/groomhandcut.png">
+<link rel="preload" as="image" href="images/bbg.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/texts/all_text.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/groomhand.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/bridehand.webp" type="image/webp" fetchpriority="high">
+<link rel="preload" as="image" href="images/groomhandcut.webp" type="image/webp" fetchpriority="high">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,25 +47,28 @@
 
     <!-- LAYER 2: flowers drifting in from the sides -->
     <div class="flowers" id="flowers">
-      <img class="flower f1" id="f1" src="images/objects/f1.png" alt="">
-      <img class="flower f2" id="f2" src="images/objects/f2.png" alt="">
-      <img class="flower f3" id="f3" src="images/objects/f3.png" alt="">
-      <img class="flower f4" id="f4" src="images/objects/f4.png" alt="">
-      <img class="flower f5" id="f5" src="images/objects/f5.png" alt="">
-      <img class="flower f6" id="f6" src="images/objects/f6.png" alt="">
+      <img class="flower f1" id="f1" data-src="images/objects/f1.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
+      <img class="flower f2" id="f2" data-src="images/objects/f2.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
+      <img class="flower f3" id="f3" data-src="images/objects/f3.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
+      <img class="flower f4" id="f4" data-src="images/objects/f4.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
+      <img class="flower f5" id="f5" data-src="images/objects/f5.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
+      <img class="flower f6" id="f6" data-src="images/objects/f6.png" decoding="async" fetchpriority="low" loading="lazy" alt="">
     </div>
 
     <!-- LAYER 3: all the wedding text, as artwork. ABOVE the background,
          BELOW the hands. Fully visible on load; fades out on scroll. -->
     <img class="all-text" id="allText"
-         src="images/texts/all_text.png"
+          data-src="images/texts/all_text.png"
+          decoding="async"
+          fetchpriority="high"
+          loading="eager"
          alt="You are invited to the wedding of Bair Srivastav and Shimi Afsara. Saturday 08 August, 1pm. 1277 Carolyn Dr NE Atlanta 30329. Attire is dressy casual, light colors are preferred.">
 
     <!-- LAYER 4: the hand stack -->
     <div class="hands-stage" id="handsStage">
-      <img id="groomhand"    class="hand groom-hand"     src="images/groomhand.png" alt="">
-      <img id="bridehand"    class="hand bride-hand"     src="images/bridehand.png" alt="">
-      <img id="groomhandcut" class="hand groom-hand-cut" src="images/groomhandcut.png" alt="">
+      <img id="groomhand"    class="hand groom-hand"     data-src="images/groomhand.png" decoding="async" fetchpriority="high" loading="eager" alt="">
+      <img id="bridehand"    class="hand bride-hand"     data-src="images/bridehand.png" decoding="async" fetchpriority="high" loading="eager" alt="">
+      <img id="groomhandcut" class="hand groom-hand-cut" data-src="images/groomhandcut.png" decoding="async" fetchpriority="high" loading="eager" alt="">
     </div>
 
     <div class="scroll-cue" id="scrollCue">

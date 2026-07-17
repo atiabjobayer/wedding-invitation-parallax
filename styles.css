@@ -155,6 +155,10 @@ body.locked {
   position: absolute;
   inset: 0;
   background-image: url('images/bbg.png');
+  background-image: image-set(
+    url('images/bbg.webp') type('image/webp'),
+    url('images/bbg.png') type('image/png')
+  );
   background-size: cover;        /* fills any aspect without letterboxing */
   background-position: center center;
   background-repeat: no-repeat;
