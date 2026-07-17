@@ -129,7 +129,7 @@ If you build upon it, a star ⭐ on the repository is always appreciated.
 
 <h3 align="left">Turjjo Paul</h3>
 <p align="left">
-Computer Science & Engineering Student at <b>Bangladesh University of Engineering and Technology (BUET)</b> — Class of 2023.
+Computer Science & Engineering Student at <b>Bangladesh University of Engineering and Technology (BUET)</b> — CSE'2023.
 </p>
 
 - 🛠 Expertise in **Kotlin, Java, JavaScript, C, C++, and Python**
